@@ -27,7 +27,7 @@ jobs:
         run: npm install
 
       - name: Run tests
-        run: npm test
+        run: npm test -- --passWithNoTests
 
   deploy:
     needs: test

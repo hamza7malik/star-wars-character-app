@@ -31,6 +31,7 @@ const CharacterCard = ({
       style={{ background: gradientStyles }}
       role='button'
       tabIndex={0}
+      onClick={onClick}
     >
       <div>
         <Image src={imageUrl} alt={`${name}-image`} width={200} height={250} />

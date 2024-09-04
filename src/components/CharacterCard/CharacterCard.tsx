@@ -27,7 +27,7 @@ const CharacterCard = ({
   const gradientStyles = createGradientString(validSpecieColors);
   return (
     <div
-      className={`w-[100%] h-[auto] p-2 flex justify-center items-center rounded-lg`}
+      className={`w-[100%] h-[auto] p-2 flex justify-center items-center rounded-lg shadow-lg hover:shadow-xl hover:scale-95 transition-transform duration-500`}
       style={{ background: gradientStyles }}
       role='button'
       tabIndex={0}

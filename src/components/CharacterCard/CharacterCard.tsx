@@ -35,7 +35,7 @@ const CharacterCard = ({
     >
       <div>
         <Image src={imageUrl} alt={`${name}-image`} width={200} height={250} />
-        <div className='p-1 mt-2 bg-black bg-opacity-70'>
+        <div className='p-1 mt-2 bg-black bg-opacity-70 text-xs'>
           <p className='font-semibold text-white pl-1'>
             {truncateText(name, 20)}
           </p>

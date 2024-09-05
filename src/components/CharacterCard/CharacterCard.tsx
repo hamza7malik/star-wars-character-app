@@ -6,7 +6,7 @@ import {
 import Image from 'next/image';
 import React from 'react';
 
-type CharacterCardProps = {
+export type CharacterCardProps = {
   id: string;
   name: string;
   specieColors: string[];
@@ -27,6 +27,7 @@ const CharacterCard = ({
   const gradientStyles = createGradientString(validSpecieColors);
   return (
     <div
+      data-testid='character-card'
       className={`w-[100%] h-[auto] p-2 flex justify-center items-center rounded-lg shadow-lg hover:shadow-xl hover:scale-95 transition-transform duration-500`}
       style={{ background: gradientStyles }}
       role='button'
@@ -34,9 +35,9 @@ const CharacterCard = ({
       onClick={onClick}
     >
       <div>
-        <Image src={imageUrl} alt={`${name}-image`} width={200} height={250} />
+        <Image src={imageUrl} alt={`${name} image`} width={200} height={250} />
         <div className='p-1 mt-2 bg-black bg-opacity-70 text-xs'>
-          <p className='font-semibold text-white pl-1'>
+          <p data-testid='card-name' className='font-semibold text-white pl-1'>
             {truncateText(name, 20)}
           </p>
         </div>

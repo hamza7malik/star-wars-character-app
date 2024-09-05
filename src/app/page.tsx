@@ -38,7 +38,8 @@ export default function Home() {
           <h2 className='text-yellow-400'>SWAPI</h2>
           <p className='text-sm'>The Star Wars API</p>
         </div>
-        <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4'>
+        <div className='w-full glowing-border h-1'></div>
+        <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-8'>
           {cardData.map((character, index) => (
             <CharacterCard
               key={index}

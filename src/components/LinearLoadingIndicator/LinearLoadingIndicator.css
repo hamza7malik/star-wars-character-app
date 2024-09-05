@@ -1,0 +1,15 @@
+.loading-indicator {
+  background: linear-gradient(90deg, rgba(0, 255, 0, 1), rgba(0, 255, 0, 0.5));
+  box-shadow: 0 0 10px rgba(0, 255, 0, 0.7);
+  width: 0;
+  animation: progress 1s linear infinite; /* 3-second loading animation */
+}
+
+@keyframes progress {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}

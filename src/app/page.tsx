@@ -7,6 +7,8 @@ import { fetchCharacters } from '../utils/api';
 import { Character } from '../types/types';
 import Pagination from '../components/Pagination/Pagination';
 import SkeletonCard from '../components/SkeletonCard/SkeletonCard';
+import LinearLoadingIndicator from '../components/LinearLoadingIndicator/LinearLoadingIndicator';
+import Saperator from '../components/Saperator/Saperator';
 
 export default function Home() {
   const [characters, setCharacters] = useState<Character[]>([]);
@@ -54,7 +56,8 @@ export default function Home() {
           <h2 className='text-yellow-400'>SWAPI</h2>
           <p className='text-sm'>The Star Wars API</p>
         </div>
-        <div className='w-full glowing-border h-1'></div>
+        {loading ? <LinearLoadingIndicator /> : <Saperator />}
+
         <Pagination
           currentPage={currentPage}
           onPageChange={onPageChange}

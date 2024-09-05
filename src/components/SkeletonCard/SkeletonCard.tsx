@@ -3,7 +3,7 @@ import React from 'react';
 const SkeletonCard = () => {
   return (
     <div
-      data-testid='skeleton-card'
+      data-testId='skeleton-card'
       className={`w-[100%] h-[auto] p-2 flex justify-center items-center rounded-lg glowing-border`}
     >
       <div>

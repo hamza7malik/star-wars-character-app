@@ -1,26 +1,31 @@
 'use client';
+
 import Image from 'next/image';
 import CharacterCard from '../components/CharacterCard/CharacterCard';
+import { useCallback, useEffect, useState } from 'react';
+import { fetchCharacters } from '../utils/api';
+import { Character } from '../types/types';
 
 export default function Home() {
-  const skinColors = 'n/a';
-  const hairColors = 'green-tan, brown';
-  const eyeColors = 'orange';
+  const [characters, setCharacters] = useState<Character[]>([]);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const cardData = [
-    {
-      name: 'Jabba Desilijic Tiure',
-      specieColor: [skinColors, hairColors, eyeColors],
-    },
-    {
-      name: 'Wedge Antilles',
-      specieColor: [skinColors, hairColors, eyeColors],
-    },
-    {
-      name: 'Jek Tono Porkins',
-      specieColor: [skinColors, hairColors, eyeColors],
-    },
-  ];
+  const fetchData = useCallback(async (page: number) => {
+    setLoading(true);
+    try {
+      const { results, count } = await fetchCharacters(page);
+      setCharacters(results);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchData(currentPage);
+  }, [currentPage]);
 
   return (
     <div className='flex justify-center items-center font-oxanium'>
@@ -28,7 +33,7 @@ export default function Home() {
         <div className='text-base md:text-lg lg:text-xl xl:text-2xl my-10'>
           <Image
             className='mx-auto'
-            src={'/logo.webp'}
+            src='/logo.webp'
             alt='star-wars-logo'
             width={200}
             height={200}
@@ -39,17 +44,23 @@ export default function Home() {
           <p className='text-sm'>The Star Wars API</p>
         </div>
         <div className='w-full glowing-border h-1'></div>
-        <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-8'>
-          {cardData.map((character, index) => (
-            <CharacterCard
-              key={index}
-              id={`${index}`}
-              imageUrl={`https://picsum.photos/200/300?random=${index}.webp`}
-              name={character.name}
-              specieColors={character.specieColor}
-              onClick={() => {}}
-            />
-          ))}
+        <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 py-8'>
+          {loading
+            ? ''
+            : characters.map((character) => {
+                const { hair_color, skin_color, eye_color, name, url } =
+                  character;
+                return (
+                  <CharacterCard
+                    key={url}
+                    id={`${url}`}
+                    imageUrl={`https://picsum.photos/200/300?random=${name}.webp`}
+                    name={name}
+                    specieColors={[hair_color, skin_color, eye_color]}
+                    onClick={() => {}}
+                  />
+                );
+              })}
         </div>
       </div>
     </div>

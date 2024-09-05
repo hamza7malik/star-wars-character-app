@@ -6,6 +6,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { fetchCharacters } from '../utils/api';
 import { Character } from '../types/types';
 import Pagination from '../components/Pagination/Pagination';
+import SkeletonCard from '../components/SkeletonCard/SkeletonCard';
 
 export default function Home() {
   const [characters, setCharacters] = useState<Character[]>([]);
@@ -61,7 +62,9 @@ export default function Home() {
         />
         <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 py-12'>
           {loading
-            ? ''
+            ? Array.from({ length: 10 }).map((_, index) => (
+                <SkeletonCard key={index} />
+              ))
             : characters.map((character) => {
                 const { hair_color, skin_color, eye_color, name, url } =
                   character;

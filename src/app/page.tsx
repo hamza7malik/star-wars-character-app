@@ -5,26 +5,36 @@ import CharacterCard from '../components/CharacterCard/CharacterCard';
 import { useCallback, useEffect, useState } from 'react';
 import { fetchCharacters } from '../utils/api';
 import { Character } from '../types/types';
+import Pagination from '../components/Pagination/Pagination';
 
 export default function Home() {
   const [characters, setCharacters] = useState<Character[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const fetchData = useCallback(async (page: number) => {
-    setLoading(true);
-    try {
-      const { results, count } = await fetchCharacters(page);
-      setCharacters(results);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+  const fetchData = useCallback(
+    async (page: number, charactersPerPage: number) => {
+      setLoading(true);
+      try {
+        const { results, count } = await fetchCharacters(page);
+        setCharacters(results);
+        setTotalPages(Math.ceil(count / charactersPerPage));
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    },
+    []
+  );
+
+  const onPageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   useEffect(() => {
-    fetchData(currentPage);
+    fetchData(currentPage, 10);
   }, [currentPage]);
 
   return (
@@ -44,7 +54,12 @@ export default function Home() {
           <p className='text-sm'>The Star Wars API</p>
         </div>
         <div className='w-full glowing-border h-1'></div>
-        <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 py-8'>
+        <Pagination
+          currentPage={currentPage}
+          onPageChange={onPageChange}
+          totalPages={totalPages}
+        />
+        <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 py-12'>
           {loading
             ? ''
             : characters.map((character) => {

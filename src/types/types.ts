@@ -23,3 +23,10 @@ export type ApiResponseCharacters = {
   previous: string | null;
   results: Character[];
 };
+
+export type ApiResponseHomeworld = {
+  name: string;
+  terrain: string;
+  climate: string;
+  residents: string[];
+};

@@ -9,7 +9,7 @@ const InfoItem = ({
   value: string | undefined;
 }) => {
   return (
-    <p className='text-[--accent-color]'>
+    <p className='text-white font-thin'>
       <span className='font-bold text-white'>{label}: </span>
       {value ? value : <LinearLoadingIndicator />}
     </p>

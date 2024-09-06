@@ -2,7 +2,11 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Modal, Box, Button } from '@mui/material';
 import { ApiResponseHomeworld, Character } from '@/src/types/types';
 import { fetchHomeworld } from '@/src/utils/api';
-import {getFormattedCentimetersToMeters, formatDate, getFormattedMass,} from '@/src/utils/helpers';
+import {
+  getFormattedCentimetersToMeters,
+  formatDate,
+  getFormattedMass,
+} from '@/src/utils/helpers';
 import InfoItem from '../InfoItem/InfoItem';
 import LinearLoadingIndicator from '../LinearLoadingIndicator/LinearLoadingIndicator';
 
@@ -26,19 +30,26 @@ type CharacterModalProps = {
   character: Character | null;
 };
 
-const CharacterModal = ({open, closeCharacterModal, character,}: CharacterModalProps) => {
-  
-  const [homeworldData, setHomeWorldData] = useState<ApiResponseHomeworld | null>(null);
+const CharacterModal = ({
+  open,
+  closeCharacterModal,
+  character,
+}: CharacterModalProps) => {
+  const [homeworldData, setHomeWorldData] =
+    useState<ApiResponseHomeworld | null>(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const fetchData = useCallback(async () => {
     if (character?.homeworld) {
       setLoading(true);
+      setError(null);
       try {
         const data = await fetchHomeworld(character.homeworld);
         setHomeWorldData(data);
       } catch (error) {
         console.error('Error fetching data:', error);
+        setError('Failed to load homeworld data. Please try again later.');
       } finally {
         setLoading(false);
       }
@@ -102,6 +113,8 @@ const CharacterModal = ({open, closeCharacterModal, character,}: CharacterModalP
 
             {loading ? (
               <LinearLoadingIndicator />
+            ) : error ? (
+              <p className='text-red-600 my-4'>{error}</p>
             ) : (
               <div data-testid='home-world-info'>
                 <InfoItem label='Name' value={homeworldData?.name} />

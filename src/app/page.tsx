@@ -20,16 +20,19 @@ export default function Home() {
   const [currentCharacter, setCurrentCharacter] = useState<Character | null>(
     null
   );
+  const [error, setError] = useState<string | null>(null);
 
   const fetchData = useCallback(
     async (page: number, charactersPerPage: number) => {
       setLoading(true);
+      setError(null);
       try {
         const { results, count } = await fetchCharacters(page);
         setCharacters(results);
         setTotalPages(Math.ceil(count / charactersPerPage));
       } catch (error) {
         console.error('Error fetching data:', error);
+        setError('Failed to load characters data. Please try again later.');
       } finally {
         setLoading(false);
       }
@@ -74,6 +77,9 @@ export default function Home() {
           onPageChange={onPageChange}
           totalPages={totalPages}
         />
+        <div className='py-12'>
+          <p className='text-red-600 my-4'>{error}</p>
+        </div>
         <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 py-12'>
           {loading
             ? Array.from({ length: 10 }).map((_, index) => (

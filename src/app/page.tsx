@@ -1,13 +1,14 @@
 'use client';
 
 import Image from 'next/image';
-import CharacterCard from '../components/CharacterCard/CharacterCard';
 import { useCallback, useEffect, useState } from 'react';
 import { fetchCharacters } from '../utils/api';
 import { Character } from '../types/types';
+import CharacterCard from '../components/CharacterCard/CharacterCard';
+import CharacterModal from '../components/CharacterModal/CharacterModal';
+import LinearLoadingIndicator from '../components/LinearLoadingIndicator/LinearLoadingIndicator';
 import Pagination from '../components/Pagination/Pagination';
 import SkeletonCard from '../components/SkeletonCard/SkeletonCard';
-import LinearLoadingIndicator from '../components/LinearLoadingIndicator/LinearLoadingIndicator';
 import Saperator from '../components/Saperator/Saperator';
 
 export default function Home() {
@@ -15,6 +16,10 @@ export default function Home() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
+  const [open, setOpen] = useState(false);
+  const [currentCharacter, setCurrentCharacter] = useState<Character | null>(
+    null
+  );
 
   const fetchData = useCallback(
     async (page: number, charactersPerPage: number) => {
@@ -35,6 +40,12 @@ export default function Home() {
   const onPageChange = (page: number) => {
     setCurrentPage(page);
   };
+
+  const openCharacterModal = (character: Character) => {
+    setCurrentCharacter(character);
+    setOpen(true);
+  };
+  const closeCharacterModal = () => setOpen(false);
 
   useEffect(() => {
     fetchData(currentPage, 10);
@@ -78,12 +89,17 @@ export default function Home() {
                     imageUrl={`https://picsum.photos/200/300?random=${name}.webp`}
                     name={name}
                     specieColors={[hair_color, skin_color, eye_color]}
-                    onClick={() => {}}
+                    onClick={() => openCharacterModal(character)}
                   />
                 );
               })}
         </div>
       </div>
+      <CharacterModal
+        character={currentCharacter}
+        open={open}
+        closeCharacterModal={closeCharacterModal}
+      />
     </div>
   );
 }

@@ -4,7 +4,7 @@ import './LinearLoadingIndicator.css';
 const LinearLoadingIndicator = () => {
   return (
     <div
-      data-testId='linear-loading'
+      data-testid='linear-loading'
       className={'w-full loading-indicator h-1'}
     ></div>
   );

@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Modal, Box, Button } from '@mui/material';
 import { ApiResponseHomeworld, Character } from '@/src/types/types';
-import { formatDate } from '@/src/utils/helpers';
 import { fetchHomeworld } from '@/src/utils/api';
+import {getFormattedCentimetersToMeters, formatDate, getFormattedMass,} from '@/src/utils/helpers';
 import InfoItem from '../InfoItem/InfoItem';
 import LinearLoadingIndicator from '../LinearLoadingIndicator/LinearLoadingIndicator';
 
@@ -26,11 +26,10 @@ type CharacterModalProps = {
   character: Character | null;
 };
 
-const CharacterModal = ({open, closeCharacterModal, character}: CharacterModalProps) => {
+const CharacterModal = ({open, closeCharacterModal, character,}: CharacterModalProps) => {
   
-const [homeworldData, setHomeWorldData] = useState<ApiResponseHomeworld | null>(null);
-  
-const [loading, setLoading] = useState(false);
+  const [homeworldData, setHomeWorldData] = useState<ApiResponseHomeworld | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const fetchData = useCallback(async () => {
     if (character?.homeworld) {
@@ -80,8 +79,14 @@ const [loading, setLoading] = useState(false);
           <div>
             <h2 className='text-yellow-400 mb-4 font-bold'>Character Info</h2>
             <div className='mb-2'>
-              <InfoItem label='Height' value={character?.height} />
-              <InfoItem label='Mass' value={character?.mass} />
+              <InfoItem
+                label='Height'
+                value={`${getFormattedCentimetersToMeters(character?.height)}`}
+              />
+              <InfoItem
+                label='Mass'
+                value={getFormattedMass(character?.mass)}
+              />
               <InfoItem label='Birth Year' value={character?.birth_year} />
               <InfoItem
                 label='Date Created'

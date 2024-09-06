@@ -40,3 +40,17 @@ export const formatDate = (dateString: string): string => {
 
   return `${day}-${month}-${year}`;
 };
+
+export const getFormattedCentimetersToMeters = (cm: string | undefined) => {
+  if (cm === 'unknown') {
+    return 'Unknown';
+  }
+  return cm ? `${Number(cm) / 100} meters` : 'N/A';
+};
+
+export const getFormattedMass = (mass: string | undefined) => {
+  if (mass === 'unknown') {
+    return 'Unknown';
+  }
+  return mass ? `${mass} kg` : 'N/A';
+};

@@ -9,10 +9,11 @@ const InfoItem = ({
   value: string | undefined;
 }) => {
   return (
-    <p className='text-white font-thin'>
-      <span className='font-bold text-white'>{label}: </span>
-      {value ? value : <LinearLoadingIndicator />}
-    </p>
+    <div className='info-item flex items-center gap-2'>
+      <p className='text-white font-thin'>
+        {label}: {value}
+      </p>
+    </div>
   );
 };
 

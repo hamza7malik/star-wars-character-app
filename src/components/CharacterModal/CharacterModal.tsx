@@ -16,6 +16,7 @@ const modalBoxStyles = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 'max-content',
+  maxWidth: '80vw',
   textWrap: 'no-wrap',
   overflowY: 'auto',
   bgcolor: '#241F1F',

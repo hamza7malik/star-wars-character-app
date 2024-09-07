@@ -1,5 +1,6 @@
 import { ApiResponseCharacters, ApiResponseHomeworld } from '../types/types';
-export const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+// export const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+export const BASE_URL = 'https://swapi.dev/api';
 
 export const fetchCharacters = async (
   page: number

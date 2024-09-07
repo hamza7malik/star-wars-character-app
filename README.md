@@ -5,7 +5,10 @@ A Star Wars Character App using SWAPI
 
 ## Features
 
-- Gradient colored cards based on character's species: (hair_color, skin_color, eye_color)
+- Gradient Colored Cards: The character cards' background colors are based on the character's species properties such as hair color, skin color, and eye color.
+
+Example of the gradient generation logic:
+
 ```bash
 export const createGradientString = (colors: string[]): string => {
   if (colors.length === 0) {

@@ -52,13 +52,15 @@ describe('CharacterModal', () => {
   });
 
   test('renders modal with character details', async () => {
-    render(
-      <CharacterModal
-        open={true}
-        closeCharacterModal={() => {}}
-        character={character}
-      />
-    );
+    await act(async () => {
+      render(
+        <CharacterModal
+          open={true}
+          closeCharacterModal={() => {}}
+          character={character}
+        />
+      );
+    });
 
     // Display the character's name as the modal header.
     await waitFor(() => {
@@ -105,16 +107,17 @@ describe('CharacterModal', () => {
     });
   });
 
-  test('closes modal on button click', () => {
+  test('closes modal on button click', async () => {
     const closeCharacterModal = jest.fn();
-
-    render(
-      <CharacterModal
-        open={true}
-        closeCharacterModal={closeCharacterModal}
-        character={character}
-      />
-    );
+    await act(async () => {
+      render(
+        <CharacterModal
+          open={true}
+          closeCharacterModal={closeCharacterModal}
+          character={character}
+        />
+      );
+    });
 
     fireEvent.click(screen.getByRole('button', { name: /×/i }));
     expect(closeCharacterModal).toHaveBeenCalledTimes(1);

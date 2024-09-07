@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import PaginationInput from '../PaginationInput/PaginationInput';
 
 type PaginationProps = {
   currentPage: number;
@@ -21,9 +22,15 @@ const Pagination = ({
       >
         Previous
       </button>
-      <span className='px-4 py-2'>
-        Page {currentPage} of {totalPages}
-      </span>
+      <div className='flex flex-col justify-center items-center'>
+        <span className='px-4 py-2 text-xs'>
+          Page {currentPage} of {totalPages}
+        </span>
+        <PaginationInput
+          onPageChange={onPageChange}
+          currentPage={currentPage}
+        />
+      </div>
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}

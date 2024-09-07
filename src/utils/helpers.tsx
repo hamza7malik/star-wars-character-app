@@ -13,7 +13,7 @@ export const filterValidColors = (colorString: string) => {
 export const createGradientString = (colors: string[]): string => {
   if (colors.length === 0) {
     // Fallback color if no valid colors are found
-    return 'background-color: #ffffff'; // Use a CSS color string instead of an inline style
+    return 'background-color: #ffffff';
   }
 
   if (colors.length === 1) {
@@ -34,6 +34,9 @@ export const truncateText = (text: string, maxLength: number) => {
 
 export const formatDate = (dateString: string): string => {
   const date = new Date(dateString);
+  if (isNaN(date.getTime())) {
+    return 'DD-MM-YYYY';
+  }
   const day = String(date.getDate()).padStart(2, '0');
   const month = String(date.getMonth() + 1).padStart(2, '0');
   const year = date.getFullYear();

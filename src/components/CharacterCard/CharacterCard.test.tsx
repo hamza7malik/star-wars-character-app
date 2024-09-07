@@ -59,7 +59,7 @@ describe('CharacterCard', () => {
   test('truncates long names', () => {
     const longNameProps = {
       ...props,
-      name: 'A very long name that should be truncated', // Name longer than 20 characters
+      name: 'A very long name that should be truncated', 
     };
 
     render(<CharacterCard {...longNameProps} />);

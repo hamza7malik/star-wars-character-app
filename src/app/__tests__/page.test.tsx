@@ -2,7 +2,6 @@ import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import Page from '../page';
 import React from 'react';
-import userEvent from '@testing-library/user-event';
 import { fetchCharacters } from '@/src/utils/api';
 
 jest.mock('../../utils/api', () => ({

@@ -1,9 +1,9 @@
 'use client';
 
 import Image from 'next/image';
-import { useCallback, useEffect, useState } from 'react';
-import { fetchCharacters } from '../utils/api';
+import { useState } from 'react';
 import { Character } from '../types/types';
+import { useCharacters } from '../hooks/useCharacters';
 import CharacterCard from '../components/CharacterCard/CharacterCard';
 import CharacterModal from '../components/CharacterModal/CharacterModal';
 import LinearLoadingIndicator from '../components/LinearLoadingIndicator/LinearLoadingIndicator';
@@ -12,33 +12,19 @@ import SkeletonCard from '../components/SkeletonCard/SkeletonCard';
 import Saperator from '../components/Saperator/Saperator';
 
 export default function Home() {
-  const [characters, setCharacters] = useState<Character[]>([]);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [totalPages, setTotalPages] = useState<number>(1);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [open, setOpen] = useState(false);
+  const {
+    characters,
+    totalPages,
+    loading,
+    error,
+    currentPage,
+    setCurrentPage,
+  } = useCharacters();
+
   const [currentCharacter, setCurrentCharacter] = useState<Character | null>(
     null
   );
-  const [error, setError] = useState<string | null>(null);
-
-  const fetchData = useCallback(
-    async (page: number, charactersPerPage: number) => {
-      setLoading(true);
-      setError(null);
-      try {
-        const { results, count } = await fetchCharacters(page);
-        setCharacters(results);
-        setTotalPages(Math.ceil(count / charactersPerPage));
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        setError('Failed to load characters data. Please try again later.');
-      } finally {
-        setLoading(false);
-      }
-    },
-    []
-  );
+  const [open, setOpen] = useState(false);
 
   const onPageChange = (page: number) => {
     setCurrentPage(page);
@@ -48,11 +34,8 @@ export default function Home() {
     setCurrentCharacter(character);
     setOpen(true);
   };
-  const closeCharacterModal = () => setOpen(false);
 
-  useEffect(() => {
-    fetchData(currentPage, 10);
-  }, [currentPage]);
+  const closeCharacterModal = () => setOpen(false);
 
   return (
     <div className='flex justify-center items-center font-oxanium'>
@@ -77,9 +60,11 @@ export default function Home() {
           onPageChange={onPageChange}
           totalPages={totalPages}
         />
-        <div className='py-12'>
-          <p className='text-red-600 my-4'>{error}</p>
-        </div>
+        {error && (
+          <div className='py-12'>
+            <p className='text-red-600 my-4'>{error}</p>
+          </div>
+        )}
         <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 py-12'>
           {loading
             ? Array.from({ length: 10 }).map((_, index) => (
